@@ -18,6 +18,6 @@ from django.contrib import admin
 from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bl/', include('blog.urls')),
+    path('', include('blog.urls')),#if removed bl and place '' string so url will be localhost/8000/about...no need to all bl to all views
 
 ]
