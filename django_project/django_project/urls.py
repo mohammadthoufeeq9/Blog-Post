@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from users import views as user_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),#if removed bl and place '' string so url will be localhost/8000/about...no need to all bl to all views
-
+    path('register/',user_views.register,name='register'),
 ]
