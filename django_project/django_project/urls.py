@@ -22,6 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),#if removed bl and place '' string so url will be localhost/8000/about...no need to all bl to all views
     path('login/',auth_views.LoginView.as_view(template_name='users/login.html'),name='login'),
-    path('logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'),name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('register/',user_views.register,name='register'),
 ]

@@ -34,10 +34,17 @@
                     </div>
 
                     <!-- Navbar Right Side -->
+                       {%if user.is_authenticated%}
+                    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-outline-light btn-sm ml-2">Logout</button>
+                    </form>
+                    {%else%}
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" href="#">Login</a>
-                        <a class="nav-item nav-link" href="#">Register</a>
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                     </div>
+                    {%endif%}
                 </div>
             </div>
         </nav>
