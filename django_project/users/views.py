@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-
+from django.contrib.auth.views import LogoutView
 from django.contrib import messages
 from .forms import UserRegisterForm
 # Create your views here.
@@ -15,3 +15,8 @@ def register(request):
     else:
         form=UserRegisterForm()
     return render(request,'users/register.html',{'form':form})
+
+class customLogout(LogoutView):
+    def dispatch(self, request, *args, **kwargs):#* adds additional positional arguments`(func(a,b))` and ** adds keyword arguments like id=4
+        messages.success(request,f'You have been logged out.')
+        return super().dispatch(request, *args, **kwargs)
