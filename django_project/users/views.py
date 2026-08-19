@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm,ProfileUpdateForm
 # Create your views here.
 
 def register(request):
@@ -24,4 +24,13 @@ class customLogout(LogoutView):
 
 @login_required #profile can open to login user if logout user access profile url it will redirect to login as we did updatedd in settings.py
 def profile(request):
-    return render(request, 'users/profile.html')
+    u_form=UserUpdateForm()
+    p_form=ProfileUpdateForm() 
+
+    con = {
+        'u_form':u_form,
+        'p_form':p_form
+    }
+    return render(request, 'users/profile.html',con)
+
+ 
