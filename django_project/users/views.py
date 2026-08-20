@@ -24,8 +24,17 @@ class customLogout(LogoutView):
 
 @login_required #profile can open to login user if logout user access profile url it will redirect to login as we did updatedd in settings.py
 def profile(request):
-    u_form=UserUpdateForm()
-    p_form=ProfileUpdateForm() 
+    if request.method == 'POST':
+        u_form=UserUpdateForm(request.POST,instance=request.user)
+        p_form=ProfileUpdateForm(request.POST,request.FILES,instance=request.user.profile) 
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request,f'Your profile is updated!')
+            return redirect('profile')
+    else:
+        u_form=UserUpdateForm(instance=request.user)
+        p_form=ProfileUpdateForm(instance=request.user.profile)
 
     con = {
         'u_form':u_form,
