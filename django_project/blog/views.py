@@ -25,6 +25,7 @@ class PostListView(ListView):
     template_name='blog/home.html'  #<app>/<model>_<viewtype>.html
     context_object_name='posts'
     ordering=['-date_posted']# this will make the order of the posts from new to old.
+    paginate_by= 2  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
 
 class PostDetailView(DetailView):
     model = post
