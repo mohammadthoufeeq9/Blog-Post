@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin #Ensures that only logged-in users can access a class-based view. If the user isn't logged in, Django redirects them to the login page.
 # userPassesTestMixin-Allows access to a class-based view only if a condition define returns True.
+from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
     DetailView,
@@ -24,8 +25,18 @@ class PostListView(ListView):
     model = post
     template_name='blog/home.html'  #<app>/<model>_<viewtype>.html
     context_object_name='posts'
-    ordering=['-date_posted']# this will make the order of the posts from new to old.
-    paginate_by= 2  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
+    #ordering=['-date_posted']# this will make the order of the posts from new to old.
+    paginate_by= 5  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
+
+class UserPostListView(ListView):
+    model = post
+    template_name='blog/home.html'  #<app>/<model>_<viewtype>.html
+    context_object_name='posts'
+    paginate_by= 5  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
+
+    def get_queryset(self):
+        user=get_object_or_404(User, username=self.kwargs.get('username'))
+        return post.object.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
     model = post
