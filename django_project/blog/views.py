@@ -30,13 +30,13 @@ class PostListView(ListView):
 
 class UserPostListView(ListView):
     model = post
-    template_name='blog/home.html'  #<app>/<model>_<viewtype>.html
+    template_name='blog/user_posts.html'  #<app>/<model>_<viewtype>.html
     context_object_name='posts'
     paginate_by= 5  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
 
     def get_queryset(self):
         user=get_object_or_404(User, username=self.kwargs.get('username'))
-        return post.object.filter(author=user).order_by('-date_posted')
+        return post.objects.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
     model = post
