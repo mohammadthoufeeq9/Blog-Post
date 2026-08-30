@@ -129,7 +129,14 @@ MEDIA_URL='/media/'# access the media -url
 
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS':{
+            'host':'smtp.gmail.com',#the address of Gmail's SMTP server.
+            'port':587,#A port is like a specific door/entrance on the server.
+            'use_tls':True,#transport layer security
+            'username':os.environ.get("MAIL"),
+            'password':os.environ.get("MAIL_PASS"),
+        },
     },
 }
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
