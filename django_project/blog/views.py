@@ -10,7 +10,8 @@ from django.views.generic import (
     DeleteView,
 )
 from .models import post
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 def home(request):
     context ={
@@ -73,3 +74,11 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
                 return True
             else:
                 return False
+
+class TestApi(APIView):
+    def get(self,request,*args,**kwargs):
+        data={
+            'username':'Thoufeeq',
+            'age':22
+        }
+        return Response(data)
