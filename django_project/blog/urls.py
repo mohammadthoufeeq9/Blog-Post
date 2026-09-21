@@ -20,6 +20,6 @@ urlpatterns = [
     #DRF
     path('api-auth/',include('rest_framework.urls')),
     path('test/',TestApi.as_view(),name='test-view'),
-    #A serializer converts complex Python/Django data into simple data types that can be rendered as JSON through api 
+    path('test/<int:pk>/',TestApi.as_view(),name='test-viewdetail')
 ]
 #passwordistoocommon

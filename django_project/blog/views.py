@@ -78,7 +78,43 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
                 return False
 
 class TestApi(APIView):
-    def get(self,request,*args,**kwargs):
+    def get(self,request,pk=None,*args,**kwargs):
+       if pk:
+           post_object=get_object_or_404(post,pk=pk)
+           serializer=postserializer(post_object)
+           return Response(serializer.data) #this will allows us to get a specific post 'test/1' 1 is pk i.e primary key
+       
        posts=post.objects.all()
        serializer=postserializer(posts, many=True)
        return Response(serializer.data)
+    
+    def post(self,request,*args,**kwargs):
+        serializer=postserializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def put(self,request,pk=None,*args,**kwargs):
+           post_object=get_object_or_404(post,pk=pk)
+           serializer=postserializer(post_object, data=request.data)
+
+           if serializer.is_valid():
+               serializer.save()
+               return Response(serializer.data)
+           return Response(serializer.errors)
+
+    def patch(self,request,pk=None,*args,**kwargs):
+        post_object=get_object_or_404(post,pk=pk)
+        serializer=postserializer(post_object, data=request.data, partial=True)#The client is only sending some fields, so don't require all fields
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+    def delete(self,request,pk=None,*args,**kwargs):
+        post_object=get_object_or_404(post,pk=pk)
+        post_object.delete()
+        return Response({'Message': "Post deleted successfully"})
