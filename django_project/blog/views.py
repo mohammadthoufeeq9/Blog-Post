@@ -12,6 +12,7 @@ from django.views.generic import (
 from .models import post
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .serializer import postserializer
 
 def home(request):
     context ={
@@ -28,6 +29,7 @@ class PostListView(ListView):
     context_object_name='posts'
     ordering=['-date_posted']# this will make the order of the posts from new to old.
     paginate_by= 5  # Pagination: Splits posts into multiple pages instead of showing all posts at once.Django automatically handles which page to display.
+
 
 class UserPostListView(ListView):
     model = post
@@ -77,8 +79,6 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 
 class TestApi(APIView):
     def get(self,request,*args,**kwargs):
-        data={
-            'username':'Thoufeeq',
-            'age':22
-        }
-        return Response(data)
+       posts=post.objects.all()
+       serializer=postserializer(posts, many=True)
+       return Response(serializer.data)
