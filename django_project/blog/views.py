@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import postserializer
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.permissions import IsAuthenticated
 
 def home(request):
     context ={
@@ -127,3 +127,4 @@ class TestApi(APIView):
 class PostViewSet(ModelViewSet):
     queryset=post.objects.all()
     serializer_class=postserializer
+    permission_classes=[IsAuthenticated]
