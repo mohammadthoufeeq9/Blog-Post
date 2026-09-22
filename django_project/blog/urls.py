@@ -9,6 +9,13 @@ from .views import (
     TestApi
 )
 from . import views
+
+from blog.views import PostViewSet
+from rest_framework.routers import DefaultRouter
+
+router=DefaultRouter()
+router.register('posts', PostViewSet)
+
 urlpatterns = [
     path('', PostListView.as_view(), name='blog-home'),
     path('user/<str:username>/', UserPostListView.as_view(), name='user-posts'),
@@ -21,5 +28,7 @@ urlpatterns = [
     path('api-auth/',include('rest_framework.urls')),
     path('test/',TestApi.as_view(),name='test-view'),
     path('test/<int:pk>/',TestApi.as_view(),name='test-viewdetail')
+    
 ]
+urlpatterns += router.urls
 #passwordistoocommon

@@ -9,10 +9,13 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+
 from .models import post
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import postserializer
+from rest_framework.viewsets import ModelViewSet
+
 
 def home(request):
     context ={
@@ -118,3 +121,9 @@ class TestApi(APIView):
         post_object=get_object_or_404(post,pk=pk)
         post_object.delete()
         return Response({'Message': "Post deleted successfully"})
+
+
+# Create a CRUD ViewSet for my post model, and use postserializer to handle its data.
+class PostViewSet(ModelViewSet):
+    queryset=post.objects.all()
+    serializer_class=postserializer
