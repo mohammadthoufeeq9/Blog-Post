@@ -16,6 +16,11 @@ from rest_framework.response import Response
 from .serializer import postserializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 def home(request):
     context ={
@@ -127,4 +132,8 @@ class TestApi(APIView):
 class PostViewSet(ModelViewSet):
     queryset=post.objects.all()
     serializer_class=postserializer
-    permission_classes=[IsAuthenticated]
+    permission_classes=[IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+
+    filter_backends =[DjangoFilterBackend,SearchFilter]
+    filterset_fields =['author']
+    search_fields = ['title', 'content']
