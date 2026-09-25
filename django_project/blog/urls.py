@@ -6,19 +6,19 @@ from .views import (
     PostUpdateView,
     PostDeleteView,
     UserPostListView,
-    TestApi
+    # TestApi
 )
 from . import views
 
-from blog.views import PostViewSet
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import(
-    TokenObtainPairView,
-    TokenRefreshView
-)
+# from blog.views import PostViewSet
+# from rest_framework.routers import DefaultRouter
+# from rest_framework_simplejwt.views import(
+#     TokenObtainPairView,
+#     TokenRefreshView
+# )
 
-router=DefaultRouter()
-router.register('posts', PostViewSet)
+# router=DefaultRouter()
+# router.register('posts', PostViewSet)
 
 urlpatterns = [
     path('', PostListView.as_view(), name='blog-home'),
@@ -29,12 +29,12 @@ urlpatterns = [
     path('post/<int:pk>/update/',PostUpdateView.as_view(),name='post-update'),#Django handles the form logic but we still need a template such as:blog/post_form.html
     path('post/<int:pk>/delete/',PostDeleteView.as_view(),name='post-delete'),#requireds post_confirm_delete.html
     #DRF
-    path('api-auth/',include('rest_framework.urls')),
-    path('api/<str:version>/test/',TestApi.as_view(),name='test-view'),
-    path('test/<int:pk>/',TestApi.as_view(),name='test-viewdetail'),
-    path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
-    path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    # path('api-auth/',include('rest_framework.urls')),
+    # path('api/<str:version>/test/',TestApi.as_view(),name='test-view'),
+    # path('test/<int:pk>/',TestApi.as_view(),name='test-viewdetail'),
+    # path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
+    # path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
     
 ]
-urlpatterns += router.urls
+# urlpatterns += router.urls
 #passwordistoocommon

@@ -167,8 +167,8 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_THROTTLE_RATES':{
-        'anon':'5/minute',
-        'user':'10/minute',
+        'anon':'10/minute',
+        'user':'100/minute',
     },
 
     'DEFAULT_VERSIONING_CLASS':'rest_framework.versioning.URLPathVersioning',
