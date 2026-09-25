@@ -24,5 +24,11 @@ class postserializer(serializers.ModelSerializer):
         if title is not None and content is not None and title == content:
             raise serializers.ValidationError('title and content cannot be same')
         return data
+#FOR API VERSIONING
+class PostSerializerV2(serializers.ModelSerializer):
 
-    
+    body = serializers.CharField(source='content')
+
+    class Meta:
+        model = post
+        fields = ['id', 'title', 'body', 'date_posted', 'author']

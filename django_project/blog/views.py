@@ -9,11 +9,11 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-
 from .models import post
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import postserializer
+from .serializer import PostSerializerV2
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAdminUser
@@ -21,6 +21,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+
+
 
 def home(request):
     context ={
@@ -86,16 +88,40 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
                 return False
 
 class TestApi(APIView):
-    def get(self,request,pk=None,*args,**kwargs):
-       if pk:
-           post_object=get_object_or_404(post,pk=pk)
-           serializer=postserializer(post_object)
-           return Response(serializer.data) #this will allows us to get a specific post 'test/1' 1 is pk i.e primary key
-       
-       posts=post.objects.all()
-       serializer=postserializer(posts, many=True)
-       return Response(serializer.data)
-    
+    def get(self, request, pk=None, *args, **kwargs):
+    #Get a specific post
+    #/api/v1/test/1/
+        if pk:
+
+            post_object = get_object_or_404(post, pk=pk)
+
+            if request.version == 'v1':
+                serializer = postserializer(post_object)
+
+            elif request.version == 'v2':
+                serializer = PostSerializerV2(post_object)
+
+            return Response({
+                'version': request.version,
+                'Message': f'The data is from {request.version}',
+                'data': serializer.data
+            })
+        #Get all posts
+        #/api/v1/test/
+
+        posts = post.objects.all()
+
+        if request.version == 'v1':
+            serializer = postserializer(posts, many=True)
+
+        elif request.version == 'v2':
+            serializer = PostSerializerV2(posts, many=True)
+
+        return Response({
+            'version': request.version,
+            'Message': f'The data is from {request.version}',
+            'data': serializer.data
+        })
     def post(self,request,*args,**kwargs):
         serializer=postserializer(data=request.data)
 

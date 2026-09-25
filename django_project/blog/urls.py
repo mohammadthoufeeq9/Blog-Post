@@ -30,7 +30,7 @@ urlpatterns = [
     path('post/<int:pk>/delete/',PostDeleteView.as_view(),name='post-delete'),#requireds post_confirm_delete.html
     #DRF
     path('api-auth/',include('rest_framework.urls')),
-    path('test/',TestApi.as_view(),name='test-view'),
+    path('api/<str:version>/test/',TestApi.as_view(),name='test-view'),
     path('test/<int:pk>/',TestApi.as_view(),name='test-viewdetail'),
     path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
