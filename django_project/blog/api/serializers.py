@@ -12,6 +12,7 @@ class postserializer(serializers.ModelSerializer):
     class Meta:
         model =post
         fields='__all__'
+        read_only_fields = ['author']
     def validate_title(self,value):
         if len(value)<5:
             raise serializers.ValidationError("The title should contain at least 5 charaters")
@@ -32,3 +33,4 @@ class PostSerializerV2(serializers.ModelSerializer):
     class Meta:
         model = post
         fields = ['id', 'title', 'body', 'date_posted', 'author']
+        read_only_fields = ['author']
